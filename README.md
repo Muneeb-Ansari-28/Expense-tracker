@@ -55,17 +55,6 @@ A sleek, modern **personal finance management web application** that helps users
 - ⚡ Smooth animations and transitions
 - 🎯 Intuitive, modern interface inspired by professional finance apps
 
-### 💾 Data Management
-- 💿 Local storage persistence — data stays private on your device
-- ⚙️ No server required for demo purposes
-- 📊 Automatic demo data seeding for first-time users
-
-## 🖼️ Screenshots
-
-**Design Reference:**  
-Check [screen.png](screen.png) for the original UI mockup design inspiration.
-
-## 🚀 Getting Started
 
 ### Requirements
 - Modern web browser (Chrome, Firefox, Safari, Edge)
