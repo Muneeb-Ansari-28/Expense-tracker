@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker with Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,500,0,0"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-bg-shape app-bg-shape-a" aria-hidden="true"></div>
+    <div class="app-bg-shape app-bg-shape-b" aria-hidden="true"></div>
+
+    <main class="container" id="appRoot">
+      <section id="authSection" class="auth-stage">
+        <div class="auth-shell" id="authWindow">
+          <div class="auth-form-container sign-up-pane">
+            <form id="signupForm" class="auth-pane-form">
+              <h1>Create Account</h1>
+              <span>Register to start tracking your finances</span>
+              <input id="signupUsername" type="text" required minlength="3" placeholder="Create username" />
+              <input id="signupPassword" type="password" required minlength="4" placeholder="Create password" />
+              <button class="primary-btn" type="submit">Sign Up</button>
+              <p id="signupMessage" class="message-line" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="auth-form-container sign-in-pane">
+            <form id="loginForm" class="auth-pane-form">
+              <h1>Sign In</h1>
+              <span>Login with your account credentials</span>
+              <input id="loginUsername" type="text" required minlength="3" placeholder="Enter username" />
+              <input id="loginPassword" type="password" required minlength="4" placeholder="Enter password" />
+              <button class="primary-btn" type="submit">Sign In</button>
+              <p id="loginMessage" class="message-line" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="auth-toggle-container">
+            <div class="auth-toggle-track">
+              <div class="auth-toggle-panel auth-toggle-left">
+                <h2>Welcome Back</h2>
+                <p>Sign in to continue managing your budget and analytics.</p>
+                <button id="showLoginBtn" class="ghost-btn auth-toggle-btn" type="button">Sign In</button>
+              </div>
+              <div class="auth-toggle-panel auth-toggle-right">
+                <h2>New Here?</h2>
+                <p>Create your account and start tracking every dollar with clarity.</p>
+                <button id="showSignupBtn" class="ghost-btn auth-toggle-btn" type="button">Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="dashboardSection" class="dashboard hidden">
+        <header class="top-nav">
+          <div class="brand-row">
+            <div class="brand-icon">
+              <span class="material-symbols-outlined">savings</span>
+            </div>
+            <div>
+              <h2>Expense Tracker Dashboard</h2>
+              <p id="welcomeText">Welcome back</p>
+            </div>
+          </div>
+
+          <div class="top-actions">
+            <button id="themeToggleBtn" class="icon-btn" type="button" title="Toggle theme">
+              <span class="material-symbols-outlined">light_mode</span>
+            </button>
+            <button id="logoutBtn" class="icon-btn" type="button" title="Logout">
+              <span class="material-symbols-outlined">logout</span>
+            </button>
+          </div>
+        </header>
+
+        <section id="budgetAlert" class="alert-banner hidden">
+          <div class="alert-left">
+            <span class="material-symbols-outlined">warning</span>
+            <div>
+              <p class="alert-title">Budget Alert</p>
+              <p id="alertText" class="alert-text"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-grid" id="summaryCards">
+          <article class="summary-card balance">
+            <p>Total Balance</p>
+            <h3 id="balanceValue">$0.00</h3>
+          </article>
+          <article class="summary-card income">
+            <p>Total Income</p>
+            <h3 id="incomeValue">$0.00</h3>
+          </article>
+          <article class="summary-card expense">
+            <p>Total Expenses</p>
+            <h3 id="expenseValue">$0.00</h3>
+          </article>
+          <article class="summary-card savings">
+            <p>Savings Rate</p>
+            <h3 id="savingsRateValue">0%</h3>
+          </article>
+        </section>
+
+        <section class="layout-grid">
+          <article class="panel form-panel">
+            <div class="panel-heading">
+              <h3 id="formHeading">Add Transaction</h3>
+            </div>
+            <form id="transactionForm" class="form-grid">
+              <input id="transactionId" type="hidden" />
+
+              <label>
+                Type
+                <select id="type" required>
+                  <option value="income">Income</option>
+                  <option value="expense">Expense</option>
+                </select>
+              </label>
+
+              <label>
+                Amount
+                <input id="amount" type="number" min="0.01" step="0.01" required placeholder="0.00" />
+              </label>
+
+              <label>
+                Category
+                <select id="category" required></select>
+              </label>
+
+              <label>
+                Date
+                <input id="date" type="date" required />
+              </label>
+
+              <label class="full-width">
+                Description
+                <input id="description" type="text" maxlength="80" required placeholder="Transaction details" />
+              </label>
+
+              <div class="form-actions full-width">
+                <button id="saveBtn" class="primary-btn" type="submit">Save Transaction</button>
+                <button id="cancelEditBtn" class="ghost-btn hidden" type="button">Cancel Edit</button>
+              </div>
+              <p id="formMessage" class="message-line full-width" aria-live="polite"></p>
+            </form>
+          </article>
+
+          <article class="panel budget-panel">
+            <div class="panel-heading">
+              <h3>Budget Limits</h3>
+            </div>
+            <form id="budgetForm" class="form-grid">
+              <label>
+                Category Budget
+                <select id="budgetCategory"></select>
+              </label>
+              <label>
+                Limit Amount
+                <input id="budgetAmount" type="number" min="0" step="0.01" placeholder="0.00" required />
+              </label>
+              <div class="form-actions full-width">
+                <button class="primary-btn" type="submit">Save Budget</button>
+              </div>
+              <p id="budgetMessage" class="message-line full-width" aria-live="polite"></p>
+            </form>
+
+            <div class="budget-list-wrap">
+              <h4>Current Budgets</h4>
+              <ul id="budgetList" class="budget-list"></ul>
+            </div>
+          </article>
+
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <h3>Category-wise Spending (Pie)</h3>
+            </div>
+            <canvas id="pieChart" aria-label="Category spending chart" role="img"></canvas>
+          </article>
+
+          <article class="panel chart-panel">
+            <div class="panel-heading">
+              <h3>Monthly Trend (Line)</h3>
+            </div>
+            <canvas id="lineChart" aria-label="Monthly trend chart" role="img"></canvas>
+          </article>
+        </section>
+
+        <section class="panel transaction-panel" id="reportSection">
+          <div class="panel-heading transaction-head">
+            <h3>Transaction History</h3>
+            <div class="head-tools">
+              <input id="searchInput" type="text" placeholder="Search description..." />
+              <select id="filterType">
+                <option value="all">All Types</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+              <select id="filterCategory">
+                <option value="all">All Categories</option>
+              </select>
+              <input id="filterDate" type="month" />
+              <select id="sortBy">
+                <option value="date-desc">Newest</option>
+                <option value="date-asc">Oldest</option>
+                <option value="amount-desc">Amount High-Low</option>
+                <option value="amount-asc">Amount Low-High</option>
+              </select>
+              <button id="exportPdfBtn" class="ghost-btn" type="button">Export PDF</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th class="right">Amount</th>
+                  <th class="right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transactionTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="deleteModal" class="modal-overlay" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <h3 id="modalTitle">Confirm Deletion</h3>
+        </div>
+        <div class="modal-body">
+          <p id="deleteModalText">Are you sure you want to delete this item? This action cannot be undone.</p>
+        </div>
+        <div class="modal-actions">
+          <button id="cancelDeleteBtn" class="ghost-btn" type="button">Cancel</button>
+          <button id="confirmDeleteBtn" class="btn-danger" type="button">Delete</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
