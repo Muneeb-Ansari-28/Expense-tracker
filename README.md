@@ -8,17 +8,8 @@ A sleek, modern **personal finance management web application** that helps users
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 ![Made with](https://img.shields.io/badge/built%20with-JavaScript-yellow?style=flat-square)
 
-## 📋 Table of Contents
-
-- [Features](#-features)
-- [Screenshots](#-screenshots)
-- [Getting Started](#-getting-started)
-- [How to Use](#-how-to-use)
-- [Project Structure](#-project-structure)
-- [Technology Stack](#-technology-stack)
-- [Browser Support](#-browser-support)
-- [Contributing](#-contributing)
-- [License](#-license)
+## Preview 
+<img width="1920" height="2283" alt="Image" src="https://github.com/user-attachments/assets/87326345-a8e6-48e3-8b2f-c3197cbdeca1" />
 
 ## ✨ Features
 
@@ -163,10 +154,8 @@ expense-tracker/
 ├── index.html                # Main HTML structure and markup
 ├── styles.css               # Complete styling & responsive design
 ├── app.js                   # All app logic, state, and event handling
-├── code.html                # Original static mockup (reference)
-├── screen.png               # Design reference screenshot
-├── README.md                # This file
-└── .gitignore              # (optional) Git ignore rules
+└── README.md                # This file
+
 ```
 
 ## 🛠️ Technology Stack
@@ -181,21 +170,6 @@ expense-tracker/
 | **html2canvas 1.4** | HTML-to-canvas rendering for PDF |
 | **localStorage API** | Client-side data persistence |
 | **Material Symbols** | Icon library for UI elements |
-
-### No Dependencies Required!
-- The app runs **standalone** in the browser
-- Libraries like Chart.js and jsPDF are loaded from **CDN**
-- Works **offline** after the first load (except PDF export during first use)
-
-## 🌐 Browser Support
-
-| Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | Latest | ✅ Fully Supported |
-| Firefox | Latest | ✅ Fully Supported |
-| Safari | Latest | ✅ Fully Supported |
-| Edge | Latest | ✅ Fully Supported |
-| IE 11 | Any | ❌ Not Supported |
 
 ## 🤝 Contributing
 
@@ -232,26 +206,3 @@ Created as a comprehensive personal finance project demonstrating:
 
 ---
 
-## 📧 Support & Questions
-
-If you have questions or issues:
-- Open an **Issue** on GitHub
-- Check the **FAQ** section (coming soon)
-- Review existing discussions
-
----
-
-## 🎯 Future Roadmap
-
-- [ ] Cloud database integration (Firebase/MongoDB)
-- [ ] Mobile app version
-- [ ] Recurring transactions
-- [ ] Bill reminders & notifications
-- [ ] Multi-user household budgeting
-- [ ] Advanced tax reports
-- [ ] Investment tracking
-- [ ] Crypto wallet integration
-
----
-
-**Made with ❤️ for better financial decisions**
